@@ -1,0 +1,8 @@
+[build]
+  base = "site/"
+
+# direct all URLs to the index.html file
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
