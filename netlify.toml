@@ -1,2 +1,16 @@
 [build]
   publish = "site/"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Cache-Control is deliberately NOT set here, so Netlify's default
+    # (public, max-age=0, must-revalidate) still applies to browsers.
+    # Browsers keep revalidating as they do today.
+    #
+    # CDN-Cache-Control targets downstream CDNs (Fastly in front of
+    # Springfield's failover). Ten minutes is chosen to meaningfully
+    # reduce Netlify request volume during a large Springfield outage
+    # (e.g. a WNP outage during a Firefox release day) while keeping
+    # propagation of any content fix here reasonably fast.
+    CDN-Cache-Control = "public, max-age=600"
