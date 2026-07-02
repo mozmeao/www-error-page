@@ -14,3 +14,20 @@
     # (e.g. a WNP outage during a Firefox release day) while keeping
     # propagation of any content fix here reasonably fast.
     CDN-Cache-Control = "public, max-age=600"
+
+    # The page is a single self-contained HTML file. Fonts, images, CSS and JS
+    # are inlined via <style>/<script> and data: URIs, so no external
+    # subresources are ever fetched. The CSP reflects that:
+    #
+    #   default-src 'none'    everything below is opt-in
+    #   style-src  'unsafe-inline'   inline <style> block
+    #   script-src 'unsafe-inline'   inline <script> block
+    #   img-src    data:            inlined favicons and CSS backgrounds
+    #   font-src   data:            inlined woff2
+    #   form-action 'none'          the picker form is JS-only, never submits
+    #   frame-ancestors 'none'      not intended to be embedded
+    #   base-uri 'none'             prevent <base> injection
+    #
+    # Anchor navigation (<a href="https://download.mozilla.org/...">) is not
+    # gated by CSP fetch directives, so download links continue to work.
+    Content-Security-Policy = "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; font-src data:; form-action 'none'; frame-ancestors 'none'; base-uri 'none'"
