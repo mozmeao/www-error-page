@@ -1,6 +1,15 @@
 [build]
   publish = "site/"
 
+# The CDN can send traffic for any www.mozilla.org path here during an
+# outage, not just "/". Without this catch-all, anything other than the
+# exact root path 404s instead of showing the error page.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 503
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
