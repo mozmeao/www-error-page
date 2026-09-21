@@ -1,6 +1,22 @@
 [build]
   publish = "site/"
 
+# What's New Page traffic (any locale, any version, e.g. /sv-SE/whatsnew/153/)
+# gets the English evergreen WNP rather than the generic error page. Netlify
+# only allows a splat at the end of a path, so a :locale placeholder is used.
+# Rules are matched top to bottom; these must stay above the catch-all.
+[[redirects]]
+  from = "/:locale/whatsnew/*"
+  to = "/whatsnew.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/whatsnew/*"
+  to = "/whatsnew.html"
+  status = 200
+  force = true
+
 # The CDN can send traffic for any www.mozilla.org path here during an
 # outage, not just "/". Without this catch-all, anything other than the
 # exact root path 404s instead of showing the error page.
@@ -24,8 +40,8 @@
     # propagation of any content fix here reasonably fast.
     CDN-Cache-Control = "public, max-age=600"
 
-    # The page is a single self-contained HTML file. Fonts, images, CSS and JS
-    # are inlined via <style>/<script> and data: URIs, so no external
+    # Both pages (index.html and whatsnew.html) are single self-contained HTML
+    # files. Fonts, images, CSS and JS are inlined via <style>/<script> and data: URIs, so no external
     # subresources are ever fetched. The CSP reflects that:
     #
     #   default-src 'none'    everything below is opt-in
